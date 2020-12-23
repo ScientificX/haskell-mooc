@@ -1,2 +1,3 @@
 language: haskell
-before_install: cd ${./exercises}
+
+script: "bash haskell-mooc/scripts/travis.sh"
