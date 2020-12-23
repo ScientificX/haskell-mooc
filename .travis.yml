@@ -1,3 +1,3 @@
 language: haskell
 
-script: "bash haskell-mooc/scripts/travis.sh"
+before_install: "bash haskell-mooc/scripts/travis.sh"
