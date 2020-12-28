@@ -186,12 +186,12 @@ step k x = if x<k then Right (2*x) else Left x
 --
 -- Examples:
 --   joinToLength 2 ["a","b","cd"]        ==> ["aa","ab","ba","bb"]
---   joinToLength 5 ["a","b","cd","def"]  ==> ["cddef","defcd"]
+--   joinTolength 5 ["a","b","cd","def"]  ==> ["cddef","defcd"]
 --
 -- Hint! This is a great use for list comprehensions
 
 joinToLength :: Int -> [String] -> [String]
-joinToLength = todo
+joinToLength i xs = [ x ++ y | x <- xs, y <- xs, (length (x ++ y)) <= i]
 
 ------------------------------------------------------------------------------
 -- Ex 10: implement the operator +|+ that returns a list with the first
@@ -205,7 +205,8 @@ joinToLength = todo
 --   [] +|+ [True]        ==> [True]
 --   [] +|+ []            ==> []
 
-
+(+|+) :: [a] -> [a] -> [a]
+xs +|+ ys = [(head xs)] ++ [(head ys)]
 ------------------------------------------------------------------------------
 -- Ex 11: remember the lectureParticipants example from Lecture 2? We
 -- used a value of type [Either String Int] to store some measurements
@@ -221,7 +222,8 @@ joinToLength = todo
 --   sumRights [Left "bad!", Left "missing"]         ==>  0
 
 sumRights :: [Either a Int] -> Int
-sumRights = todo
+sumRights [Left j :: xs] = sumRights xs
+sumRights [Right i :: xs] = i + sumRights xs
 
 ------------------------------------------------------------------------------
 -- Ex 12: recall the binary function composition operation
@@ -236,8 +238,11 @@ sumRights = todo
 --   multiCompose [reverse, tail, (++"bar")] "foo" ==> "raboo"
 --   multiCompose [(3*), (2^), (+1)] 0 ==> 6
 --   multiCompose [(+1), (2^), (3*)] 0 ==> 2
+compose f xs = case xs of []       -> f
+                          x:y:xs   -> compose (x.y) xs
+                          x:[] -> (f.x)
 
-multiCompose fs = todo
+multiCompose xs arg = (compose id xs) arg
 
 ------------------------------------------------------------------------------
 -- Ex 13: let's consider another way to compose multiple functions. Given
@@ -245,8 +250,8 @@ multiCompose fs = todo
 -- a composition operation that applies each function g in gs to x and then
 -- f to the resulting list. Give also the type annotation for multiApp.
 --
--- Challenge: Try implementing multiApp without lambdas or list comprehensions.
 --
+-- Challenge: Try implementing multiApp without lambdas or list comprehensions.
 -- Examples:
 --   multiApp id [] 7  ==> []
 --   multiApp id [id, reverse, tail] "This is a test"
@@ -256,7 +261,7 @@ multiCompose fs = todo
 --   multiApp reverse [tail, take 2, reverse] "foo" ==> ["oof","fo","oo"]
 --   multiApp concat [take 3, reverse] "race" ==> "racecar"
 
-multiApp = todo
+multiApp 
 
 ------------------------------------------------------------------------------
 -- Ex 14: in this exercise you get to implement an interpreter for a
