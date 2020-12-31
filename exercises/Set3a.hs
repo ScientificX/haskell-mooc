@@ -80,14 +80,10 @@ mapMaybe2 f (Just x ) (Just y) = (Just $ f x y)
 palindromeHalfs :: [String] -> [String]
 palindromeHalfs xs = map firstHalf (filter palindrome xs)
 
-oddn x = if x `mod` 2 == 0 then False else True
-even x = not oddn x
-
-firstHalf :: [String]-> [String]
-firstHalf str = if oddn (length str) then take (((length str) `div` 2) + 1) str else take (((length str) `div` 2)) str
+firstHalf :: String -> String
+firstHalf str = if odd (length str) then take (((length str) `div` 2) + 1) str else take (((length str) `div` 2)) str
 
 palindrome x = reverse x == x
-
 ------------------------------------------------------------------------------
 -- Ex 5: Implement a function capitalize that takes in a string and
 -- capitalizes the first letter of each word in it.
@@ -121,14 +117,13 @@ capitalize str = unwords $ map capitalizeFirst $ words str
 --   * k^max > max
 --   * the function takeWhile
 
--- power k n = if n < 0 then 0 else 
+-- power k n = if n < 0 then 0 else
 
-power k n = k ^ n
+power x i = case i of
+                  0 -> [1]
+                  i -> [(x^i)] ++ power x (i-1)
 
-powers :: Int -> Int -> [Int]
-powers k 0 = 0
-powers k max = if (power k max) < max then [(power k max)] ++ powers k (max-1) else powers k (max-1)
-
+powers x n = filter (\x -> x<n) $ power x n
 ------------------------------------------------------------------------------
 -- Ex 7: implement a functional while loop. While should be a function
 -- that takes a checking function, an updating function, and an
@@ -221,9 +216,10 @@ xs +|+ ys = [(head xs)] ++ [(head ys)]
 --   sumRights [Right 1, Left "bad value", Right 2]  ==>  3
 --   sumRights [Left "bad!", Left "missing"]         ==>  0
 
-sumRights :: [Either a Int] -> Int
-sumRights [Left j :: xs] = sumRights xs
-sumRights [Right i :: xs] = i + sumRights xs
+-- sumRights :: [Either a Int] -> Int
+-- sumRights [Left j : xs] = sumRights xs
+-- sumRights [Right i : xs] = i + sumRights xs
+sumRights = todo
 
 ------------------------------------------------------------------------------
 -- Ex 12: recall the binary function composition operation
@@ -261,7 +257,7 @@ multiCompose xs arg = (compose id xs) arg
 --   multiApp reverse [tail, take 2, reverse] "foo" ==> ["oof","fo","oo"]
 --   multiApp concat [take 3, reverse] "race" ==> "racecar"
 
-multiApp 
+multiApp = todo
 
 ------------------------------------------------------------------------------
 -- Ex 14: in this exercise you get to implement an interpreter for a
