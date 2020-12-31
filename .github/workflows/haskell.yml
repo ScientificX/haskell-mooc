@@ -34,7 +34,7 @@ jobs:
       run: |
         cd exercises
         cabal update
-        cabal build --only-dependencies --enable-tests --enable-benchmarks
+        cabal v2-build
     - name: Build
       run: cabal v2-build
     - name: Run tests
